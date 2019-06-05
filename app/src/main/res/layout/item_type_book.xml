@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="5dp"
+    android:layout_height="70dp"
     android:layout_margin="5dp"
+    android:id="@+id/item"
     android:background="@color/white"
-    android:layout_height="70dp">
-    <ImageView
-        android:src="@drawable/icon_book"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_width="50dp"
-        android:layout_height="50dp" />
+    android:elevation="5dp">
+
     <TextView
+        android:paddingLeft="@dimen/_15sp"
         android:id="@+id/tvBook"
-        android:textStyle="bold"
-        android:textColor="@color/black"
-        android:layout_marginTop="25dp"
-        android:layout_marginLeft="70dp"
-        android:text="Kinh tế"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:text="Kinh tế"
+        android:textColor="@color/black"
+        android:textStyle="bold" />
 </android.support.v7.widget.CardView>
+
+
+
+

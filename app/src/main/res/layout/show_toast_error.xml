@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/toast_layout_root"
     android:layout_width="match_parent"
     android:background="@drawable/border_show_toast"
     android:layout_height="wrap_content">
         <TextView
+            app:layout_constraintTop_toTopOf="parent"
             android:id="@+id/tvTitle"
             android:textStyle="bold"
             android:gravity="center"

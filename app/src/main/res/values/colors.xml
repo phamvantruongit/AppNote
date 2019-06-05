@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorPrimary">#11aeea</color>
+    <color name="colorPrimaryDark">#11aeea</color>
     <color name="colorAccent">#D81B60</color>
     <color name="white">#ffffff</color>
     <color name="bg_green">#0daeed</color>
     <color name="bg_red">#e71236</color>
     <color name="black">#000</color>
+    <color name="edSearch">#f6f7fb</color>
+    <color name="gray">#ccc</color>
 </resources>

@@ -4,8 +4,10 @@ import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity
-public class Book {
+public class Book implements Serializable {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     public int id;
@@ -23,10 +25,11 @@ public class Book {
 
 
     @ColumnInfo(name = "id_type_book")
-    public String id_type_book;
+    public int id_type_book;
 
 
-
+    @ColumnInfo(name = "test")
+    public String test;
 
 
 }
