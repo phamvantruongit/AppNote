@@ -18,5 +18,6 @@ public class ApplicationNote extends Application {
     public void onCreate() {
         super.onCreate();
         createDatabaseUser();
+
     }
 }

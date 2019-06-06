@@ -6,6 +6,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,7 +30,7 @@ import vn.com.it.truongpham.appnote.adapter.AdapterTypeBook;
 import vn.com.it.truongpham.appnote.data.TypeBook;
 import vn.com.it.truongpham.appnote.view.ShowToast;
 
-public class NoteBookActivity extends AppCompatActivity {
+public class NoteBookActivity extends AppCompatActivity implements AdapterTypeBook.IOnClick {
 
 
     RecyclerView rvBook;
@@ -61,7 +63,7 @@ public class NoteBookActivity extends AppCompatActivity {
                                  @Override
                                  public void onChanged(List<TypeBook> typeBooks) {
                                      layoutManager = new LinearLayoutManager(NoteBookActivity.this);
-                                     adapterTypeBook = new AdapterTypeBook(NoteBookActivity.this, typeBooks);
+                                     adapterTypeBook = new AdapterTypeBook(NoteBookActivity.this, typeBooks,NoteBookActivity.this);
                                      rvBook.setLayoutManager(layoutManager);
                                      rvBook.setAdapter(adapterTypeBook);
                                  }
@@ -85,8 +87,17 @@ public class NoteBookActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.right_in, R.anim.left_out);
+        finish();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.item_add) {
+
+
             final Dialog dialog = new Dialog(this);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setContentView(R.layout.show_popup_type_book);
@@ -126,7 +137,7 @@ public class NoteBookActivity extends AppCompatActivity {
             @Override
             public void onChanged(@Nullable List<TypeBook> typeBooks) {
                 layoutManager = new LinearLayoutManager(NoteBookActivity.this);
-                adapterTypeBook = new AdapterTypeBook(NoteBookActivity.this, typeBooks);
+                adapterTypeBook = new AdapterTypeBook(NoteBookActivity.this, typeBooks,NoteBookActivity.this);
                 rvBook.setLayoutManager(layoutManager);
                 rvBook.setAdapter(adapterTypeBook);
             }
@@ -134,4 +145,8 @@ public class NoteBookActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void ionClick() {
+        overridePendingTransition(R.anim.left_in, R.anim.right_out);
+    }
 }

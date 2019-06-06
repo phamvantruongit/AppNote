@@ -22,8 +22,10 @@ import vn.com.it.truongpham.appnote.data.Book;
 public class AdapterListNote extends RecyclerView.Adapter<AdapterListNote.ViewHolder> {
     List<Book> list;
     Context context;
-    public AdapterListNote(List<Book> list) {
+    IOnClick iOnClick;
+    public AdapterListNote(List<Book> list,IOnClick iOnClick) {
         this.list = list;
+        this.iOnClick=iOnClick;
     }
 
     @NonNull
@@ -53,6 +55,7 @@ public class AdapterListNote extends RecyclerView.Adapter<AdapterListNote.ViewHo
                         Intent intent = new Intent(context, DetailNoteActivity.class);
                         intent.putExtra("note",list.get(i));
                         context.startActivity(intent);
+                        iOnClick.ionClick();
                         return true;
                     }
                 });
@@ -77,5 +80,9 @@ public class AdapterListNote extends RecyclerView.Adapter<AdapterListNote.ViewHo
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
         }
+    }
+
+    public  interface IOnClick{
+        void ionClick();
     }
 }

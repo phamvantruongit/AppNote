@@ -18,7 +18,7 @@ import java.util.List;
 import vn.com.it.truongpham.appnote.adapter.AdapterListNote;
 import vn.com.it.truongpham.appnote.data.Book;
 
-public class ListNoteActivity extends AppCompatActivity {
+public class ListNoteActivity extends AppCompatActivity implements AdapterListNote.IOnClick {
    RecyclerView recyclerView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +46,7 @@ public class ListNoteActivity extends AppCompatActivity {
                       .observe(ListNoteActivity.this, new Observer<List<Book>>() {
                           @Override
                           public void onChanged(List<Book> books) {
-                              AdapterListNote adapterListNote=new AdapterListNote(books);
+                              AdapterListNote adapterListNote=new AdapterListNote(books,ListNoteActivity.this);
                               recyclerView.setAdapter(adapterListNote);
                           }
                       });
@@ -70,9 +70,22 @@ public class ListNoteActivity extends AppCompatActivity {
         listLiveData.observe(this, new Observer<List<Book>>() {
             @Override
             public void onChanged(@Nullable List<Book> books) {
-                AdapterListNote adapterListNote=new AdapterListNote(books);
+                AdapterListNote adapterListNote=new AdapterListNote(books,ListNoteActivity.this);
                 recyclerView.setAdapter(adapterListNote);
             }
         });
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.right_in, R.anim.left_out);
+        finish();
+    }
+
+    @Override
+    public void ionClick() {
+        overridePendingTransition(R.anim.left_in, R.anim.right_out);
     }
 }

@@ -1,5 +1,6 @@
 package vn.com.it.truongpham.appnote.adapter;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -24,6 +25,7 @@ import java.util.List;
 import vn.com.it.truongpham.appnote.ApplicationNote;
 import vn.com.it.truongpham.appnote.DetailNoteActivity;
 import vn.com.it.truongpham.appnote.ListNoteActivity;
+import vn.com.it.truongpham.appnote.NoteBookActivity;
 import vn.com.it.truongpham.appnote.R;
 import vn.com.it.truongpham.appnote.data.TypeBook;
 import vn.com.it.truongpham.appnote.view.ShowToast;
@@ -31,11 +33,12 @@ import vn.com.it.truongpham.appnote.view.ShowToast;
 public class AdapterTypeBook extends RecyclerView.Adapter<AdapterTypeBook.ViewHolder> {
     Context context;
     List<TypeBook> list;
+    IOnClick onClick;
 
-
-    public AdapterTypeBook(Context context, List<TypeBook> list) {
+    public AdapterTypeBook(Context context, List<TypeBook> list, IOnClick onClick) {
         this.context = context;
         this.list = list;
+        this.onClick=onClick;
     }
 
     @NonNull
@@ -53,7 +56,8 @@ public class AdapterTypeBook extends RecyclerView.Adapter<AdapterTypeBook.ViewHo
         viewHolder.tvName.setText(list.get(i).name);
 
 
-        viewHolder.itemView.findViewById(R.id.item).setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
+        viewHolder.itemView.findViewById(R.id.item);
+        viewHolder.itemView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
             @Override
             public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
                 menu.setHeaderTitle("Select The Action");
@@ -63,6 +67,7 @@ public class AdapterTypeBook extends RecyclerView.Adapter<AdapterTypeBook.ViewHo
                         Intent intent = new Intent(context, DetailNoteActivity.class);
                         intent.putExtra("id", list.get(i).id);
                         context.startActivity(intent);
+                        onClick.ionClick();
                         return true;
                     }
                 });
@@ -73,6 +78,7 @@ public class AdapterTypeBook extends RecyclerView.Adapter<AdapterTypeBook.ViewHo
                         Intent intent = new Intent(context, ListNoteActivity.class);
                         intent.putExtra("id", list.get(i).id);
                         context.startActivity(intent);
+                        onClick.ionClick();
                         return true;
                     }
                 });
@@ -134,7 +140,10 @@ public class AdapterTypeBook extends RecyclerView.Adapter<AdapterTypeBook.ViewHo
 
         }
 
+    }
 
+ public    interface IOnClick{
+        void ionClick();
     }
 
 }
