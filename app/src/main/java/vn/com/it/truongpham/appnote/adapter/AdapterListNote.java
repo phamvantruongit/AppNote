@@ -52,6 +52,7 @@ public class AdapterListNote extends RecyclerView.Adapter<AdapterListNote.ViewHo
         viewHolder.itemView.findViewById(R.id.item).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 final Dialog dialog=new Dialog(context);
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setContentView(R.layout.layout_item);
