@@ -1,8 +1,4 @@
 package vn.com.it.truongpham.appnote;
-
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -27,7 +23,6 @@ public class DetailNoteActivity extends AppCompatActivity {
             edTitle.setText(book.chapter);
             edContent.setText(book.content);
         }
-
 
     }
 
