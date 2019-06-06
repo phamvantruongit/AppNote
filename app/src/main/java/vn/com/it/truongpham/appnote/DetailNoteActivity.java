@@ -1,27 +1,16 @@
 package vn.com.it.truongpham.appnote;
 
-import android.app.Dialog;
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Observer;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.Window;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.List;
-
-import io.reactivex.Single;
 import vn.com.it.truongpham.appnote.data.Book;
-import vn.com.it.truongpham.appnote.data.TypeBook;
-import vn.com.it.truongpham.appnote.view.ShowToast;
 
 public class DetailNoteActivity extends AppCompatActivity {
     EditText edTitle, edContent;

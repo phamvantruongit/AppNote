@@ -1,7 +1,7 @@
 package vn.com.it.truongpham.appnote;
 
 import android.app.Application;
-import android.arch.persistence.room.Room;
+import androidx.room.Room;
 
 import vn.com.it.truongpham.appnote.data.AppDatabase;
 

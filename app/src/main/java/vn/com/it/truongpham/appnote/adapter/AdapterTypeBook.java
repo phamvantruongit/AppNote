@@ -1,9 +1,12 @@
 package vn.com.it.truongpham.appnote.adapter;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.text.TextUtils;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -12,22 +15,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.EditText;
+import android.widget.Filter;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import vn.com.it.truongpham.appnote.ApplicationNote;
 import vn.com.it.truongpham.appnote.DetailNoteActivity;
 import vn.com.it.truongpham.appnote.ListNoteActivity;
-import vn.com.it.truongpham.appnote.NoteBookActivity;
 import vn.com.it.truongpham.appnote.R;
 import vn.com.it.truongpham.appnote.data.TypeBook;
 import vn.com.it.truongpham.appnote.view.ShowToast;
 
-public class AdapterTypeBook extends RecyclerView.Adapter<AdapterTypeBook.ViewHolder>  {
+public class AdapterTypeBook extends RecyclerView.Adapter<AdapterTypeBook.ViewHolder> {
     Context context;
     List<TypeBook> list;
+
 
     public AdapterTypeBook(Context context, List<TypeBook> list) {
         this.context = context;
@@ -40,6 +44,7 @@ public class AdapterTypeBook extends RecyclerView.Adapter<AdapterTypeBook.ViewHo
         View view = LayoutInflater.from(context).inflate(R.layout.item_type_book, viewGroup, false);
         return new ViewHolder(view);
     }
+
 
 
 
@@ -56,7 +61,7 @@ public class AdapterTypeBook extends RecyclerView.Adapter<AdapterTypeBook.ViewHo
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         Intent intent = new Intent(context, DetailNoteActivity.class);
-                        intent.putExtra("id",list.get(i).id);
+                        intent.putExtra("id", list.get(i).id);
                         context.startActivity(intent);
                         return true;
                     }
@@ -66,7 +71,7 @@ public class AdapterTypeBook extends RecyclerView.Adapter<AdapterTypeBook.ViewHo
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         Intent intent = new Intent(context, ListNoteActivity.class);
-                        intent.putExtra("id",list.get(i).id);
+                        intent.putExtra("id", list.get(i).id);
                         context.startActivity(intent);
                         return true;
                     }
@@ -94,7 +99,7 @@ public class AdapterTypeBook extends RecyclerView.Adapter<AdapterTypeBook.ViewHo
                                     ShowToast.showToast(context, R.layout.show_toast_error);
                                     return;
                                 }
-                                ApplicationNote.db.typeBookDAO().update(text,list.get(i).id);
+                                ApplicationNote.db.typeBookDAO().update(text, list.get(i).id);
                                 dialog.dismiss();
 
                             }
@@ -120,7 +125,7 @@ public class AdapterTypeBook extends RecyclerView.Adapter<AdapterTypeBook.ViewHo
         return list.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder  {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvName;
 
         public ViewHolder(@NonNull View itemView) {

@@ -1,14 +1,17 @@
 package vn.com.it.truongpham.appnote;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Observer;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import android.content.Intent;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.widget.EditText;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
@@ -25,7 +28,44 @@ public class ListNoteActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         Intent intent=getIntent();
-        int id=intent.getIntExtra("id",0);
+        final int id=intent.getIntExtra("id",0);
+        getData(id);
+
+        final EditText edSearch= findViewById(R.id.edSearch);
+        edSearch.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                  if(edSearch.getText().toString().length()>0){
+                      String name=edSearch.getText().toString();
+                      ApplicationNote.db.bookDAO().findByName("%"+name+"%","%"+name+"%")
+                      .observe(ListNoteActivity.this, new Observer<List<Book>>() {
+                          @Override
+                          public void onChanged(List<Book> books) {
+                              AdapterListNote adapterListNote=new AdapterListNote(books);
+                              recyclerView.setAdapter(adapterListNote);
+                          }
+                      });
+
+                      ;
+                  }else {
+                      getData(id);
+                  }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+    }
+
+    private void getData(int id) {
         LiveData<List<Book>> listLiveData = ApplicationNote.db.bookDAO().getListBook(id);
         listLiveData.observe(this, new Observer<List<Book>>() {
             @Override

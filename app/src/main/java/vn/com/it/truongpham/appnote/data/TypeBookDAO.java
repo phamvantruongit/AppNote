@@ -1,9 +1,9 @@
 package vn.com.it.truongpham.appnote.data;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.persistence.room.Dao;
-import android.arch.persistence.room.Insert;
-import android.arch.persistence.room.Query;
+import androidx.lifecycle.LiveData;
+import androidx.room.Dao;
+import androidx.room.Insert;
+import androidx.room.Query;
 
 import java.util.List;
 
@@ -18,6 +18,9 @@ public interface TypeBookDAO {
 
     @Query("update typebook set name = :name where id in (:uid)")
     void update(String name, int uid);
+
+    @Query("select * from typebook where name LIKE :find_name ")
+    LiveData<List<TypeBook>> findByName(String find_name);
 
 
 

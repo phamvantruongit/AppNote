@@ -1,13 +1,11 @@
 package vn.com.it.truongpham.appnote.data;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.persistence.room.Dao;
-import android.arch.persistence.room.Insert;
-import android.arch.persistence.room.Query;
+import androidx.lifecycle.LiveData;
+import androidx.room.Dao;
+import androidx.room.Insert;
+import androidx.room.Query;
 
 import java.util.List;
-
-import io.reactivex.Single;
 
 @Dao
 public interface BookDAO {
@@ -24,6 +22,10 @@ public interface BookDAO {
 
     @Query("DELETE FROM Book WHERE id in (:id)")
     void delete(int id);
+
+
+    @Query("select * from Book where chapter LIKE :title OR content LIKE :name ")
+    LiveData<List<Book>> findByName(String title ,String name);
 
 
 

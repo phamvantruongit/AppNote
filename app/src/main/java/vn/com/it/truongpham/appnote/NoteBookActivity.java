@@ -1,20 +1,26 @@
 package vn.com.it.truongpham.appnote;
 
 import android.app.Dialog;
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Observer;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
+
 
 import java.util.List;
 
@@ -24,7 +30,7 @@ import vn.com.it.truongpham.appnote.view.ShowToast;
 
 public class NoteBookActivity extends AppCompatActivity {
 
-    List<TypeBook> bookList;
+
     RecyclerView rvBook;
     AdapterTypeBook adapterTypeBook;
     RecyclerView.LayoutManager layoutManager;
@@ -36,7 +42,40 @@ public class NoteBookActivity extends AppCompatActivity {
 
         rvBook = findViewById(R.id.rvbook);
 
+
         getData();
+
+        final EditText edSeach=findViewById(R.id.edSearch);
+        edSeach.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                 if(edSeach.getText().toString().length()>0){
+                     String name=edSeach.getText().toString();
+                     ApplicationNote.db.typeBookDAO().findByName("%"+name+"%")
+                             .observe(NoteBookActivity.this, new Observer<List<TypeBook>>() {
+                                 @Override
+                                 public void onChanged(List<TypeBook> typeBooks) {
+                                     layoutManager = new LinearLayoutManager(NoteBookActivity.this);
+                                     adapterTypeBook = new AdapterTypeBook(NoteBookActivity.this, typeBooks);
+                                     rvBook.setLayoutManager(layoutManager);
+                                     rvBook.setAdapter(adapterTypeBook);
+                                 }
+                             });
+                 }else {
+                     getData();
+                 }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     @Override
