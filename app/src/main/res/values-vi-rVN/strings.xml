@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name" translatable="false">Note Book</string>
+    <string name="search_name" translatable="false">Tim kiem</string>
+    <string name="add_infomation" translatable="false">Them thong tin</string>
+    <string name="enter_name" translatable="false">Nhap ten</string>
+    <string name="ok" translatable="false">Them</string>
+    <string name="cancel" translatable="false">Huy bo</string>
+    <string name="title">Tieu de</string>
+    <string name="content">Noi dung</string>
+    <string name="edit_successfully">Edit successfully</string>
+    <string name="add_successfully">Add successfully</string>
+    <string name="select_action">Lua chon</string>
+    <string name="list_note" tools:ignore="ExtraTranslation">Danh sach</string>
+    <string name="add">Them</string>
+    <string name="Edit">Sua</string>
+    <string name="detail">Chi tiet</string>
+    <string name="delete">Xoa</string>
+    <string name="please_enter_name">Please enter name</string>
+    <string name="app_ads">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="id_banner">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="id_interstitial">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="title_edit">Edit information</string>
+</resources>

@@ -8,16 +8,23 @@ import android.content.Intent;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.text.TextUtils;
 import android.view.ContextMenu;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.TextView;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,76 +61,86 @@ public class AdapterTypeBook extends RecyclerView.Adapter<AdapterTypeBook.ViewHo
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
         viewHolder.tvName.setText(list.get(i).name);
-
-
-        viewHolder.itemView.findViewById(R.id.item);
-        viewHolder.itemView.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
+        
+        viewHolder.itemView.findViewById(R.id.item).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-                menu.setHeaderTitle("Select The Action");
-                menu.add("Them").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            public void onClick(View v) {
+                final Dialog dialog=new Dialog(context);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.layout_item);
+                dialog.show();
+
+                final InterstitialAd mInterstitialAd = new InterstitialAd(context);
+                mInterstitialAd.setAdUnitId(context.getResources().getString(R.string.id_interstitial));
+                mInterstitialAd.loadAd(new AdRequest.Builder().build());
+
+                if (dialog.getWindow() != null) {
+                    dialog.getWindow().setGravity(Gravity.BOTTOM);
+                    dialog.getWindow().setLayout(
+                            WindowManager.LayoutParams.MATCH_PARENT,
+                            WindowManager.LayoutParams.WRAP_CONTENT
+                    );
+                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                }
+
+                dialog.findViewById(R.id.tvAdd).setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public boolean onMenuItemClick(MenuItem item) {
+                    public void onClick(View v) {
+                        dialog.dismiss();
                         Intent intent = new Intent(context, DetailNoteActivity.class);
                         intent.putExtra("id", list.get(i).id);
                         context.startActivity(intent);
                         onClick.ionClick();
-                        return true;
+                        if (mInterstitialAd.isLoaded()) {
+                            mInterstitialAd.show();
+                        }
                     }
                 });
 
-                menu.add("Danh sach").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                dialog.findViewById(R.id.tvListNote).setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public boolean onMenuItemClick(MenuItem item) {
+                    public void onClick(View v) {
+                        dialog.dismiss();
                         Intent intent = new Intent(context, ListNoteActivity.class);
                         intent.putExtra("id", list.get(i).id);
                         context.startActivity(intent);
                         onClick.ionClick();
-                        return true;
                     }
                 });
 
-
-                menu.add("Sua").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                dialog.findViewById(R.id.tvEdit).setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public boolean onMenuItemClick(MenuItem item) {
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                        final Dialog dia = new Dialog(context);
+                        dia.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                        dia.setContentView(R.layout.show_popup_type_book);
+                        dia.show();
+                        TextView tvOK = dia.findViewById(R.id.tvOK);
+                        TextView tvTitle=dia.findViewById(R.id.tvTitle);
 
-                        final Dialog dialog = new Dialog(context);
-                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                        dialog.setContentView(R.layout.show_popup_type_book);
-                        dialog.setCancelable(false);
-                        dialog.show();
-                        TextView tvOK = dialog.findViewById(R.id.tvOK);
+                        tvTitle.setText(context.getString(R.string.title_edit));
 
-                        final EditText edTypeBook = dialog.findViewById(R.id.edTypeBook);
+                        final EditText edTypeBook = dia.findViewById(R.id.edTypeBook);
                         edTypeBook.setText(list.get(i).name);
                         tvOK.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 String text = edTypeBook.getText().toString();
                                 if (TextUtils.isEmpty(text)) {
-                                    ShowToast.showToast(context, R.layout.show_toast_error);
+                                    dia.dismiss();
                                     return;
                                 }
                                 ApplicationNote.db.typeBookDAO().update(text, list.get(i).id);
-                                dialog.dismiss();
+                                dia.dismiss();
 
                             }
                         });
-                        TextView tvCancel = dialog.findViewById(R.id.tvCancel);
-                        tvCancel.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                dialog.dismiss();
-                            }
-                        });
-
-
-                        return true;
                     }
                 });
             }
         });
+
     }
 
     @Override
@@ -142,7 +159,7 @@ public class AdapterTypeBook extends RecyclerView.Adapter<AdapterTypeBook.ViewHo
 
     }
 
- public    interface IOnClick{
+ public interface IOnClick{
         void ionClick();
     }
 

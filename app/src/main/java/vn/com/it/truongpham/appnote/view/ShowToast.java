@@ -10,9 +10,10 @@ import android.widget.Toast;
 import vn.com.it.truongpham.appnote.R;
 
 public class ShowToast {
-    public static void showToast(Context context ,int layout){
+    public static void showToast(Context context ,int layout ,String name){
         View view=LayoutInflater.from(context).inflate(layout,null);
         TextView textView=view.findViewById(R.id.tvTitle);
+        textView.setText(name);
         textView.setPadding(70,0 ,0 ,0);
         Toast toast=new Toast(context);
         toast.setDuration(Toast.LENGTH_SHORT);

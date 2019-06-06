@@ -1,16 +1,21 @@
 package vn.com.it.truongpham.appnote.adapter;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import android.view.ContextMenu;
+
+import android.graphics.drawable.ColorDrawable;
+import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.WebView;
 import android.widget.TextView;
+
 
 import java.util.List;
 
@@ -42,29 +47,48 @@ public class AdapterListNote extends RecyclerView.Adapter<AdapterListNote.ViewHo
         tvTitle.setText(list.get(i).chapter);
 
         WebView tvContent=viewHolder.itemView.findViewById(R.id.tvContent);
-        String content="<body style=\"text-align:justify;text-indent:5px;font-size:15px\">" + list.get(i).content + "</body>";
+        final String content="<body style=\"text-align:justify;text-indent:5px;font-size:15px\">" + list.get(i).content + "</body>";
         tvContent.loadData(content ,"text/html", "UTF-8");
-
-        viewHolder.itemView.findViewById(R.id.item).setOnCreateContextMenuListener(new View.OnCreateContextMenuListener() {
+        viewHolder.itemView.findViewById(R.id.item).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-                menu.setHeaderTitle("Select The Action");
-                menu.add("Chi tiet").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            public void onClick(View v) {
+                final Dialog dialog=new Dialog(context);
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.layout_item);
+                dialog.show();
+
+                if (dialog.getWindow() != null) {
+                    dialog.getWindow().setGravity(Gravity.BOTTOM);
+                    dialog.getWindow().setLayout(
+                            WindowManager.LayoutParams.MATCH_PARENT,
+                            WindowManager.LayoutParams.WRAP_CONTENT
+                    );
+                    dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+                }
+
+                TextView tvDetail=dialog.findViewById(R.id.tvAdd);
+                TextView tvDelete=dialog.findViewById(R.id.tvListNote);
+                tvDetail.setText(context.getString(R.string.detail));
+                tvDelete.setText(context.getString(R.string.delete));
+
+                dialog.findViewById(R.id.tvEdit).setVisibility(View.GONE);
+
+                tvDetail.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public boolean onMenuItemClick(MenuItem item) {
+                    public void onClick(View v) {
+                        dialog.dismiss();
                         Intent intent = new Intent(context, DetailNoteActivity.class);
                         intent.putExtra("note",list.get(i));
                         context.startActivity(intent);
                         iOnClick.ionClick();
-                        return true;
                     }
                 });
 
-                menu.add("Xoa").setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                tvDelete.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public boolean onMenuItemClick(MenuItem item) {
+                    public void onClick(View v) {
+                        dialog.dismiss();
                         ApplicationNote.db.bookDAO().delete(list.get(i).id);
-                        return true;
                     }
                 });
             }

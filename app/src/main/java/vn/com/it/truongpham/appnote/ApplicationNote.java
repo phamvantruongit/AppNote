@@ -3,6 +3,8 @@ package vn.com.it.truongpham.appnote;
 import android.app.Application;
 import androidx.room.Room;
 
+import com.google.android.gms.ads.MobileAds;
+
 import vn.com.it.truongpham.appnote.data.AppDatabase;
 
 public class ApplicationNote extends Application {
@@ -17,6 +19,7 @@ public class ApplicationNote extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        MobileAds.initialize(this, this.getString(R.string.app_ads));
         createDatabaseUser();
 
     }

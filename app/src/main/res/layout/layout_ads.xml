@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.gms.ads.AdView xmlns:ads="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/adView"
+    android:layout_width="468dp"
+    android:layout_height="60dp"
+    android:layout_centerHorizontal="true"
+    android:layout_alignParentBottom="true"
+    ads:adSize="BANNER"
+    android:layout_gravity="bottom|center_horizontal"
+    ads:adUnitId="ca-app-pub-3940256099942544/6300978111">
+</com.google.android.gms.ads.AdView>

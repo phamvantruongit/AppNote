@@ -1,24 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="vn.com.it.truongpham.appnote">
 
     <application
         android:name=".ApplicationNote"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/icon_app"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/icon_app"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-       >
-        <activity android:name=".ListNoteActivity"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"
-            ></activity>
-        <activity android:name=".DetailNoteActivity" />
-        <activity android:name=".NoteBookActivity"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"
-            >
+        android:theme="@style/AppTheme">
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="@string/app_ads"/>
+
+        <meta-data
+            android:name="com.google.android.gms.ads.AD_MANAGER_APP"
+            android:value="true"/>
+        <activity
+            android:name=".ListNoteActivity"
+            android:theme="@style/AppThemeNoActionbar"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
+        <activity
+            android:name=".DetailNoteActivity"
+            android:theme="@style/AppThemeNoActionbar" />
+        <activity
+            android:name=".NoteBookActivity"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

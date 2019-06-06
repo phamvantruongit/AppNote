@@ -1,5 +1,6 @@
 package vn.com.it.truongpham.appnote;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import android.content.Intent;
@@ -8,10 +9,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 
 import java.util.List;
 
@@ -20,6 +27,7 @@ import vn.com.it.truongpham.appnote.data.Book;
 
 public class ListNoteActivity extends AppCompatActivity implements AdapterListNote.IOnClick {
    RecyclerView recyclerView;
+    InterstitialAd mInterstitialAd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +38,33 @@ public class ListNoteActivity extends AppCompatActivity implements AdapterListNo
         Intent intent=getIntent();
         final int id=intent.getIntExtra("id",0);
         getData(id);
+        Toolbar toolbar=findViewById(R.id.toolbar);
+
+
+
+
+        AdView mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+        mAdView.loadAd(adRequest);
+
+
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId(getResources().getString(R.string.id_interstitial));
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+        TextView tvTitle=findViewById(R.id.tvTitle);
+        tvTitle.setText(getString(R.string.list_note));
+
+        findViewById(R.id.imgRight).setVisibility(View.GONE);
 
         final EditText edSearch= findViewById(R.id.edSearch);
         edSearch.addTextChangedListener(new TextWatcher() {
@@ -51,7 +86,6 @@ public class ListNoteActivity extends AppCompatActivity implements AdapterListNo
                           }
                       });
 
-                      ;
                   }else {
                       getData(id);
                   }
@@ -82,6 +116,9 @@ public class ListNoteActivity extends AppCompatActivity implements AdapterListNo
         super.onBackPressed();
         overridePendingTransition(R.anim.right_in, R.anim.left_out);
         finish();
+        if (mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+        }
     }
 
     @Override

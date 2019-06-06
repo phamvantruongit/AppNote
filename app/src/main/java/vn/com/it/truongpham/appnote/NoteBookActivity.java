@@ -24,6 +24,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import java.util.List;
 
 import vn.com.it.truongpham.appnote.adapter.AdapterTypeBook;
@@ -43,6 +46,12 @@ public class NoteBookActivity extends AppCompatActivity implements AdapterTypeBo
         setContentView(R.layout.activity_note_book);
 
         rvBook = findViewById(R.id.rvbook);
+
+
+        AdView mAdView = findViewById(R.id.adViews);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+        mAdView.loadAd(adRequest);
 
 
         getData();
@@ -96,12 +105,9 @@ public class NoteBookActivity extends AppCompatActivity implements AdapterTypeBo
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.item_add) {
-
-
             final Dialog dialog = new Dialog(this);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setContentView(R.layout.show_popup_type_book);
-            dialog.setCancelable(false);
             dialog.show();
             TextView tvOK = dialog.findViewById(R.id.tvOK);
             final EditText edTypeBook = dialog.findViewById(R.id.edTypeBook);
@@ -110,7 +116,7 @@ public class NoteBookActivity extends AppCompatActivity implements AdapterTypeBo
                 public void onClick(View v) {
                     String text = edTypeBook.getText().toString();
                     if (TextUtils.isEmpty(text)) {
-                        ShowToast.showToast(NoteBookActivity.this, R.layout.show_toast_error);
+                        dialog.dismiss();
                         return;
                     }
                     TypeBook typeBook = new TypeBook();
@@ -118,13 +124,6 @@ public class NoteBookActivity extends AppCompatActivity implements AdapterTypeBo
                     ApplicationNote.db.typeBookDAO().insertTypeBook(typeBook);
                     dialog.dismiss();
 
-                }
-            });
-            TextView tvCancel = dialog.findViewById(R.id.tvCancel);
-            tvCancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.dismiss();
                 }
             });
         }
