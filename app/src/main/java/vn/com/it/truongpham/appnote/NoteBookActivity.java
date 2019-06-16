@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,10 +17,12 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -107,8 +110,17 @@ public class NoteBookActivity extends AppCompatActivity implements AdapterTypeBo
         if (item.getItemId() == R.id.item_add) {
             final Dialog dialog = new Dialog(this);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            dialog.setCancelable(false);
             dialog.setContentView(R.layout.show_popup_type_book);
             dialog.show();
+            if (dialog.getWindow() != null) {
+                dialog.getWindow().setGravity(Gravity.CENTER);
+                dialog.getWindow().setLayout(
+                        WindowManager.LayoutParams.MATCH_PARENT,
+                        WindowManager.LayoutParams.WRAP_CONTENT
+                );
+                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+            }
             TextView tvOK = dialog.findViewById(R.id.tvOK);
             final EditText edTypeBook = dialog.findViewById(R.id.edTypeBook);
             tvOK.setOnClickListener(new View.OnClickListener() {
@@ -116,7 +128,7 @@ public class NoteBookActivity extends AppCompatActivity implements AdapterTypeBo
                 public void onClick(View v) {
                     String text = edTypeBook.getText().toString();
                     if (TextUtils.isEmpty(text)) {
-                        dialog.dismiss();
+                        edTypeBook.setError(getString(R.string.enter_info));
                         return;
                     }
                     TypeBook typeBook = new TypeBook();
@@ -126,6 +138,13 @@ public class NoteBookActivity extends AppCompatActivity implements AdapterTypeBo
 
                 }
             });
+            dialog.findViewById(R.id.tvExit).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+
         }
         return super.onOptionsItemSelected(item);
     }

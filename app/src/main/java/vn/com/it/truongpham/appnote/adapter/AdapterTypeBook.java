@@ -70,9 +70,7 @@ public class AdapterTypeBook extends RecyclerView.Adapter<AdapterTypeBook.ViewHo
                 dialog.setContentView(R.layout.layout_item);
                 dialog.show();
 
-                final InterstitialAd mInterstitialAd = new InterstitialAd(context);
-                mInterstitialAd.setAdUnitId(context.getResources().getString(R.string.id_interstitial));
-                mInterstitialAd.loadAd(new AdRequest.Builder().build());
+
 
                 if (dialog.getWindow() != null) {
                     dialog.getWindow().setGravity(Gravity.BOTTOM);
@@ -91,9 +89,6 @@ public class AdapterTypeBook extends RecyclerView.Adapter<AdapterTypeBook.ViewHo
                         intent.putExtra("id", list.get(i).id);
                         context.startActivity(intent);
                         onClick.ionClick();
-                        if (mInterstitialAd.isLoaded()) {
-                            mInterstitialAd.show();
-                        }
                     }
                 });
 

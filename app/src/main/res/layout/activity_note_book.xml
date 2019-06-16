@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".NoteBookActivity">
     <vn.com.it.truongpham.appnote.view.ClearableEditText
@@ -36,6 +37,5 @@
         ads:adSize="BANNER"
         ads:layout_constraintBottom_toBottomOf="parent"
         ads:adUnitId="ca-app-pub-3940256099942544/6300978111"
-        >
-    </com.google.android.gms.ads.AdView>
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,9 +15,11 @@
     <string name="Edit">Edit note</string>
     <string name="detail">Detail note</string>
     <string name="delete">Delete note</string>
-    <string name="app_ads">ca-app-pub-3940256099942544~3347511713</string>
-    <string name="id_banner">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="id_interstitial">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="app_ads">ca-app-pub-5708334770944175~1518913961</string>
+    <string name="id_banner">ca-app-pub-5708334770944175/6388097265</string>
+    <string name="id_interstitial">ca-app-pub-5708334770944175/4300866268</string>
     <string name="please_enter_name">Please enter information</string>
     <string name="title_edit">Edit information</string>
+    <string name="enter_info">Enter information</string>
+    <string name="exit">Exit</string>
 </resources>
