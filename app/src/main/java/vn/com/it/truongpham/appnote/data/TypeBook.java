@@ -12,4 +12,7 @@ public class TypeBook {
 
     @ColumnInfo(name = "name")
     public String name;
+
+    @ColumnInfo(name = "date")
+    public String date;
 }

@@ -30,6 +30,8 @@ import android.widget.TextView;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import vn.com.it.truongpham.appnote.adapter.AdapterTypeBook;
@@ -131,8 +133,12 @@ public class NoteBookActivity extends AppCompatActivity implements AdapterTypeBo
                         edTypeBook.setError(getString(R.string.enter_info));
                         return;
                     }
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy - HH:mm aa");
+                    String currentDateandTime = sdf.format(new Date());
+
                     TypeBook typeBook = new TypeBook();
                     typeBook.name = text;
+                    typeBook.date=currentDateandTime;
                     ApplicationNote.db.typeBookDAO().insertTypeBook(typeBook);
                     dialog.dismiss();
 

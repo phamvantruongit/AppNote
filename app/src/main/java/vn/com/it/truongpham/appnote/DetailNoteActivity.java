@@ -2,6 +2,7 @@ package vn.com.it.truongpham.appnote;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.DialogFragment;
 
 
 import android.os.Bundle;
@@ -29,6 +30,8 @@ public class DetailNoteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail_note);
         edTitle = findViewById(R.id.edTitle);
         edContent = findViewById(R.id.edContent);
+
+
 
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId(getResources().getString(R.string.id_interstitial));

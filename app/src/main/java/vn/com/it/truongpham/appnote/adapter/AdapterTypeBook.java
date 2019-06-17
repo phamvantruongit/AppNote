@@ -61,6 +61,9 @@ public class AdapterTypeBook extends RecyclerView.Adapter<AdapterTypeBook.ViewHo
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
         viewHolder.tvName.setText(list.get(i).name);
+
+        viewHolder.tvDate.setText(list.get(i).date);
+
         
         viewHolder.itemView.findViewById(R.id.item).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,11 +147,12 @@ public class AdapterTypeBook extends RecyclerView.Adapter<AdapterTypeBook.ViewHo
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvName;
+        TextView tvName ,tvDate;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             tvName = itemView.findViewById(R.id.tvBook);
+            tvDate= itemView.findViewById(R.id.tvDate);
 
         }
 

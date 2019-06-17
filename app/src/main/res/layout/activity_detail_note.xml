@@ -17,10 +17,28 @@
         android:hint="@string/title"
         android:layout_width="match_parent"
         android:layout_height="50dp" />
+    <LinearLayout
+        android:id="@+id/ln"
+        android:layout_below="@id/edTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:padding="10dp"
+            android:text="Date start"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:padding="10dp"
+            android:text="Date stop"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
     <View
         android:background="@color/gray"
         android:id="@+id/view"
-        android:layout_below="@id/edTitle"
+        android:layout_below="@id/ln"
         android:layout_width="match_parent"
         android:layout_height="1dp" />
     <EditText
