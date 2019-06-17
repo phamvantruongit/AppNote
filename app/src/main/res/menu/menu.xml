@@ -4,6 +4,11 @@
     <item
         android:id="@+id/item_add"
         android:icon="@drawable/iv_add"
-        app:showAsAction="always"
-        android:title="" />
+        android:title=""
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/item_search"
+        android:icon="@drawable/iv_search"
+        android:title=""
+        app:showAsAction="always" />
 </menu>

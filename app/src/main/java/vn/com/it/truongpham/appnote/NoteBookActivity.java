@@ -1,13 +1,14 @@
 package vn.com.it.truongpham.appnote;
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
+
+import androidx.fragment.app.DialogFragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,6 +24,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -31,12 +33,12 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import vn.com.it.truongpham.appnote.adapter.AdapterTypeBook;
 import vn.com.it.truongpham.appnote.data.TypeBook;
-import vn.com.it.truongpham.appnote.view.ShowToast;
 
 public class NoteBookActivity extends AppCompatActivity implements AdapterTypeBook.IOnClick {
 
@@ -44,6 +46,9 @@ public class NoteBookActivity extends AppCompatActivity implements AdapterTypeBo
     RecyclerView rvBook;
     AdapterTypeBook adapterTypeBook;
     RecyclerView.LayoutManager layoutManager;
+    EditText edSeach;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +56,10 @@ public class NoteBookActivity extends AppCompatActivity implements AdapterTypeBo
         setContentView(R.layout.activity_note_book);
 
         rvBook = findViewById(R.id.rvbook);
+        edSeach =findViewById(R.id.edSearch);
+
+
+
 
 
         AdView mAdView = findViewById(R.id.adViews);
@@ -61,7 +70,10 @@ public class NoteBookActivity extends AppCompatActivity implements AdapterTypeBo
 
         getData();
 
-        final EditText edSeach=findViewById(R.id.edSearch);
+        getSearchName();
+    }
+
+    private void getSearchName() {
         edSeach.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -70,21 +82,54 @@ public class NoteBookActivity extends AppCompatActivity implements AdapterTypeBo
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                 if(edSeach.getText().toString().length()>0){
-                     String name=edSeach.getText().toString();
-                     ApplicationNote.db.typeBookDAO().findByName("%"+name+"%")
-                             .observe(NoteBookActivity.this, new Observer<List<TypeBook>>() {
-                                 @Override
-                                 public void onChanged(List<TypeBook> typeBooks) {
-                                     layoutManager = new LinearLayoutManager(NoteBookActivity.this);
-                                     adapterTypeBook = new AdapterTypeBook(NoteBookActivity.this, typeBooks,NoteBookActivity.this);
-                                     rvBook.setLayoutManager(layoutManager);
-                                     rvBook.setAdapter(adapterTypeBook);
-                                 }
-                             });
-                 }else {
-                     getData();
-                 }
+                if(edSeach.getText().toString().length()>0){
+                    String name=edSeach.getText().toString();
+                    ApplicationNote.db.typeBookDAO().findByName("%"+name+"%")
+                            .observe(NoteBookActivity.this, new Observer<List<TypeBook>>() {
+                                @Override
+                                public void onChanged(List<TypeBook> typeBooks) {
+                                    layoutManager = new LinearLayoutManager(NoteBookActivity.this);
+                                    adapterTypeBook = new AdapterTypeBook(NoteBookActivity.this, typeBooks,NoteBookActivity.this);
+                                    rvBook.setLayoutManager(layoutManager);
+                                    rvBook.setAdapter(adapterTypeBook);
+                                }
+                            });
+                }else {
+                    getData();
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
+
+    private void getSearchDate() {
+        edSeach.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(edSeach.getText().toString().length()>0){
+                    String name=edSeach.getText().toString();
+                    ApplicationNote.db.typeBookDAO().findByDate("%"+name+"%")
+                            .observe(NoteBookActivity.this, new Observer<List<TypeBook>>() {
+                                @Override
+                                public void onChanged(List<TypeBook> typeBooks) {
+                                    layoutManager = new LinearLayoutManager(NoteBookActivity.this);
+                                    adapterTypeBook = new AdapterTypeBook(NoteBookActivity.this, typeBooks,NoteBookActivity.this);
+                                    rvBook.setLayoutManager(layoutManager);
+                                    rvBook.setAdapter(adapterTypeBook);
+                                }
+                            });
+                }else {
+                    getData();
+                }
             }
 
             @Override
@@ -133,12 +178,14 @@ public class NoteBookActivity extends AppCompatActivity implements AdapterTypeBo
                         edTypeBook.setError(getString(R.string.enter_info));
                         return;
                     }
-                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy - HH:mm aa");
-                    String currentDateandTime = sdf.format(new Date());
+                    SimpleDateFormat time = new SimpleDateFormat("HH:mm aa");
+                    SimpleDateFormat date = new SimpleDateFormat("dd/M/yyyy");
+
 
                     TypeBook typeBook = new TypeBook();
                     typeBook.name = text;
-                    typeBook.date=currentDateandTime;
+                    typeBook.date=date.format(new Date());
+                    typeBook.time= time.format(new Date());
                     ApplicationNote.db.typeBookDAO().insertTypeBook(typeBook);
                     dialog.dismiss();
 
@@ -151,6 +198,12 @@ public class NoteBookActivity extends AppCompatActivity implements AdapterTypeBo
                 }
             });
 
+        }
+
+        if(item.getItemId()==R.id.item_search){
+            DatePickerFragment fragment=new DatePickerFragment(edSeach);
+            fragment.show(getSupportFragmentManager(),"Select date");
+            getSearchDate();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -172,5 +225,25 @@ public class NoteBookActivity extends AppCompatActivity implements AdapterTypeBo
     @Override
     public void ionClick() {
         overridePendingTransition(R.anim.left_in, R.anim.right_out);
+    }
+
+    public static class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
+
+        EditText date;
+        public DatePickerFragment(EditText textView) {
+
+            date=textView;
+        }
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            final Calendar c = Calendar.getInstance();
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH)+1;
+            int day = c.get(Calendar.DAY_OF_MONTH);
+            return new DatePickerDialog(getActivity(), this, year, month, day);
+        }
+        public void onDateSet(DatePicker view, int year, int month, int day) {
+            date.setText( String.valueOf(day) + "/" + String.valueOf(month) + "/" + String.valueOf(year));
+        }
     }
 }

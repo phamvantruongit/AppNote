@@ -15,4 +15,7 @@ public class TypeBook {
 
     @ColumnInfo(name = "date")
     public String date;
+
+    @ColumnInfo(name = "time")
+    public String time;
 }

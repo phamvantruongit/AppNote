@@ -31,5 +31,5 @@
         android:layout_width="match_parent"
         android:layout_marginBottom="70dp"
         android:layout_height="wrap_content"/>
-    <!--<include layout="@layout/layout_ads"/>-->
+    <include layout="@layout/layout_ads"/>
 </RelativeLayout>

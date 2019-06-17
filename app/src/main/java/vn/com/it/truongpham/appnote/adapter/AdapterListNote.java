@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.graphics.drawable.ColorDrawable;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,7 +45,12 @@ public class AdapterListNote extends RecyclerView.Adapter<AdapterListNote.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder viewHolder, final int i) {
         TextView tvTitle=viewHolder.itemView.findViewById(R.id.tvTitle);
+        TextView tvTimeDate= viewHolder.itemView.findViewById(R.id.tvTimDate);
         tvTitle.setText(list.get(i).chapter);
+        tvTimeDate.setText(list.get(i).date + "\t"  + list.get(i).time);
+        Log.d("PPPP",list.get(i).date + list.get(i).time);
+
+
 
         WebView tvContent=viewHolder.itemView.findViewById(R.id.tvContent);
         final String content="<body style=\"text-align:justify;text-indent:5px;font-size:15px\">" + list.get(i).content + "</body>";

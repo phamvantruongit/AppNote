@@ -62,7 +62,7 @@ public class AdapterTypeBook extends RecyclerView.Adapter<AdapterTypeBook.ViewHo
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
         viewHolder.tvName.setText(list.get(i).name);
 
-        viewHolder.tvDate.setText(list.get(i).date);
+        viewHolder.tvDate.setText(list.get(i).date + "\t" + list.get(i).time);
 
         
         viewHolder.itemView.findViewById(R.id.item).setOnClickListener(new View.OnClickListener() {

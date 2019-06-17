@@ -28,8 +28,11 @@ public class Book implements Serializable {
     public int id_type_book;
 
 
-    @ColumnInfo(name = "test")
-    public String test;
+    @ColumnInfo(name = "date")
+    public String date;
+
+    @ColumnInfo(name = "time")
+    public String time;
 
 
 }
