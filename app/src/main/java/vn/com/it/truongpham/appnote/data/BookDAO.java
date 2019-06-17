@@ -12,7 +12,7 @@ public interface BookDAO {
     @Insert
     void insertBook(Book... Book);
 
-    @Query("SELECT * FROM Book  WHERE id_type_book in (:id) ")
+    @Query("SELECT * FROM Book  WHERE id_type_book in (:id)  ORDER BY id desc")
     LiveData<List<Book>> getListBook(int id);
 
 
@@ -24,7 +24,7 @@ public interface BookDAO {
     void delete(int id);
 
 
-    @Query("select * from Book where chapter LIKE :title OR content LIKE :name ")
+    @Query("select * from Book where chapter LIKE :title OR content LIKE :name  ORDER BY id desc")
     LiveData<List<Book>> findByName(String title ,String name);
 
 

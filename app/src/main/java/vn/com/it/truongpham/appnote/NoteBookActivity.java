@@ -58,10 +58,6 @@ public class NoteBookActivity extends AppCompatActivity implements AdapterTypeBo
         rvBook = findViewById(R.id.rvbook);
         edSeach =findViewById(R.id.edSearch);
 
-
-
-
-
         AdView mAdView = findViewById(R.id.adViews);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
