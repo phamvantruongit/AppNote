@@ -22,7 +22,7 @@ android {
     flavorDimensions "default"
     productFlavors {
         note {
-            applicationId "pvtr.appnote"
+            applicationId "truong.pv.appnote"
             versionCode 4
             versionName "4.0.0"
         }
