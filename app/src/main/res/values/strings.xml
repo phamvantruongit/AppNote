@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Note Book</string>
+    <string name="app_name" translatable="false">Todo List</string>
     <string name="search_name" translatable="false">search</string>
     <string name="add_infomation" translatable="false">Add infomation</string>
     <string name="enter_name" translatable="false">Enter name</string>

@@ -175,7 +175,6 @@ public class NoteBookActivity extends AppCompatActivity implements AdapterTypeBo
         findViewById(R.id.tvMoreApp).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //http://play.google.com/store/apps/collection/<collection_name>
                 close();
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse(

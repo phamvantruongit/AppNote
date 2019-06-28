@@ -83,7 +83,7 @@
                 android:id="@+id/tvMoreApp"
                 android:drawableRight="@drawable/iv_arrow"
                 android:padding="8dp"
-                android:text="Thêm ứng dụng"
+                android:text="Danh sách ứng dụng"
                 android:layout_width="match_parent"
                 android:gravity="center_vertical"
                 android:layout_height="45dp" />

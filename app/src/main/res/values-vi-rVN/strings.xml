@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name" translatable="false">Note Book</string>
+    <string name="app_name" translatable="false">Nhật kí công việc</string>
     <string name="search_name" translatable="false">Tìm kiếm</string>
     <string name="add_infomation" translatable="false">Thêm thông tin</string>
     <string name="enter_name" translatable="false">Nhập tên</string>
