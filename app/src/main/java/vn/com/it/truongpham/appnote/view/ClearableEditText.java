@@ -7,7 +7,8 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.EditText;
+
+import androidx.appcompat.widget.AppCompatEditText;
 
 import vn.com.it.truongpham.appnote.R;
 
@@ -16,7 +17,7 @@ import vn.com.it.truongpham.appnote.R;
  * Created by t420 on 11-Dec-17.
  */
 
-public class ClearableEditText extends EditText implements View.OnTouchListener, View.OnFocusChangeListener {
+public class ClearableEditText extends AppCompatEditText implements View.OnTouchListener, View.OnFocusChangeListener {
 
     public interface Listener {
         void didClearText();

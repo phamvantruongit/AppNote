@@ -136,6 +136,15 @@ public class AdapterTypeBook extends RecyclerView.Adapter<AdapterTypeBook.ViewHo
                         });
                     }
                 });
+
+                dialog.findViewById(R.id.tvDelete).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                          ApplicationNote.db.typeBookDAO().deleteTypeNote(list.get(i).id);
+                          ApplicationNote.db.bookDAO().deleteNote(list.get(i).id);
+                          dialog.dismiss();
+                    }
+                });
             }
         });
 

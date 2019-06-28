@@ -22,4 +22,6 @@
     <string name="title_edit">Edit information</string>
     <string name="enter_info">Enter information</string>
     <string name="exit">Exit</string>
+    <string name="navigation_drawer_open">open</string>
+    <string name="navigation_drawer_close">close</string>
 </resources>

@@ -23,4 +23,6 @@
     <string name="title_edit">Sửa thông tin</string>
     <string name="enter_info">Nhập thông tin</string>
     <string name="exit">Thoát</string>
+    <string name="navigation_drawer_open">open</string>
+    <string name="navigation_drawer_close">close</string>
 </resources>

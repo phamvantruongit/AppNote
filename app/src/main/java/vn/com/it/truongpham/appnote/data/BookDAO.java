@@ -23,6 +23,9 @@ public interface BookDAO {
     @Query("DELETE FROM Book WHERE id in (:id)")
     void delete(int id);
 
+    @Query("DELETE FROM Book WHERE id_type_book in (:id)")
+    void deleteNote(int id);
+
 
     @Query("select * from Book where chapter LIKE :title OR content LIKE :name  ORDER BY id desc")
     LiveData<List<Book>> findByName(String title ,String name);

@@ -10,6 +10,7 @@
          android:id="@+id/toolbar"
         />
     <vn.com.it.truongpham.appnote.view.ClearableEditText
+        android:paddingRight="@dimen/_10dp"
         android:layout_margin="@dimen/_5dp"
         android:layout_below="@id/toolbar"
         app:layout_constraintTop_toTopOf="parent"

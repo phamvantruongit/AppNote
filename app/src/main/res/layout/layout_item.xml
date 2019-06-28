@@ -54,5 +54,17 @@
             android:text="@string/Edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+        <View
+            android:background="@color/gray"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+        <TextView
+            android:id="@+id/tvDelete"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:padding="@dimen/_13dp"
+            android:text="@string/delete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </RelativeLayout>
