@@ -91,12 +91,12 @@ public class NoteBookActivity extends AppCompatActivity implements AdapterTypeBo
         mInterstitialAd.setAdUnitId(getResources().getString(R.string.id_interstitial));
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("");
 
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -326,7 +326,7 @@ public class NoteBookActivity extends AppCompatActivity implements AdapterTypeBo
     }
 
     private void close() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
     }
 
@@ -404,7 +404,7 @@ public class NoteBookActivity extends AppCompatActivity implements AdapterTypeBo
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {

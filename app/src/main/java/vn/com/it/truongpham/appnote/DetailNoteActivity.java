@@ -54,10 +54,6 @@ public class DetailNoteActivity extends AppCompatActivity {
         tvTime.setText(time.format(new Date()));
 
 
-        dateTime();
-
-
-
 
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId(getResources().getString(R.string.id_interstitial));
@@ -134,24 +130,6 @@ public class DetailNoteActivity extends AppCompatActivity {
 
     }
 
-    private void dateTime() {
-        tvDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DatePickerFragment fragment=new DatePickerFragment(tvDate);
-                fragment.show(getSupportFragmentManager(),"Select date");
-            }
-        });
-
-        tvTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               TimePicker timePicker=new TimePicker(tvTime);
-               timePicker.show(getSupportFragmentManager(),"Select time");
-            }
-        });
-    }
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -163,44 +141,6 @@ public class DetailNoteActivity extends AppCompatActivity {
 
     }
 
-    public static class TimePicker extends DialogFragment implements TimePickerDialog.OnTimeSetListener{
-        TextView time;
-        public TimePicker(TextView textView) {
-            time=textView;
-        }
 
-        @NonNull
-        @Override
-        public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-            final Calendar c = Calendar.getInstance();
-            int hour = c.get(Calendar.HOUR_OF_DAY);
-            int minute = c.get(Calendar.MINUTE);
-            return new TimePickerDialog(getActivity(), this, hour, minute, DateFormat.is24HourFormat(getActivity()));
-        }
-
-        @Override
-        public void onTimeSet(android.widget.TimePicker view, int hourOfDay, int minute) {
-             time.setText(String.valueOf(hourOfDay) + ":" + String.valueOf(minute));
-        }
-    }
-
-    public static class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
-
-        TextView date;
-        public DatePickerFragment(TextView textView) {
-            date=textView;
-        }
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            final Calendar c = Calendar.getInstance();
-            int year = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH);
-            int day = c.get(Calendar.DAY_OF_MONTH);
-            return new DatePickerDialog(getActivity(), this, year, month, day);
-        }
-        public void onDateSet(DatePicker view, int year, int month, int day) {
-            date.setText( String.valueOf(day) + " / " + String.valueOf(month) + "/" + String.valueOf(year));
-        }
-    }
 
 }
