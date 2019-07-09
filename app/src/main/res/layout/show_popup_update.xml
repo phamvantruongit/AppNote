@@ -38,7 +38,7 @@
            <TextView
                android:textStyle="bold"
                android:textColor="@color/black"
-               android:id="@+id/tvExit"
+               android:id="@+id/tvLater"
                android:gravity="center"
                android:padding="@dimen/_10dp"
                android:text="Later"
@@ -52,10 +52,10 @@
            <TextView
                android:textStyle="bold"
                android:textColor="@color/black"
-               android:id="@+id/tvOK"
+               android:id="@+id/tvAccept"
                android:gravity="center"
                android:padding="@dimen/_10dp"
-               android:text="@string/ok"
+               android:text="Accept"
                android:layout_weight="1"
                android:layout_width="0dp"
                android:layout_height="@dimen/_40dp" />

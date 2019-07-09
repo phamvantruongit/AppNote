@@ -75,6 +75,19 @@
                 android:layout_height="1dp"/>
             <TextView
                 android:textColor="@color/black"
+                android:id="@+id/tvUpdateApp"
+                android:drawableRight="@drawable/iv_arrow"
+                android:padding="8dp"
+                android:text="Cap nhat ung dung"
+                android:layout_width="match_parent"
+                android:gravity="center_vertical"
+                android:layout_height="45dp" />
+            <View
+                android:background="@color/gray"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"/>
+            <TextView
+                android:textColor="@color/black"
                 android:id="@+id/tvMoreApp"
                 android:drawableRight="@drawable/iv_arrow"
                 android:padding="8dp"

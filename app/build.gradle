@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'com.google.gms.google-services'
 android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "vn.com.it.truongpham.appnote"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 28
         versionCode 1
         versionName "1.0.0"
@@ -23,8 +23,8 @@ android {
     productFlavors {
         note {
             applicationId "com.pvt.appnote"
-            versionCode 4
-            versionName "4.0.0"
+            versionCode 1
+            versionName "1.0.0"
         }
 
     }
@@ -42,9 +42,9 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
     implementation 'androidx.room:room-runtime:2.0.0'
     annotationProcessor 'androidx.room:room-compiler:2.0.0'
-    //implementation 'com.google.android.material:material:1.0.0'
-    //implementation 'com.daimajia.swipelayout:library:1.2.0@aar'
     implementation 'com.google.firebase:firebase-ads:17.2.0'
+    implementation 'com.google.firebase:firebase-core:17.0.0'
+    implementation 'com.google.firebase:firebase-database:18.0.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     annotationProcessor 'androidx.lifecycle:lifecycle-compiler:2.0.0'
     implementation 'com.andrognito.patternlockview:patternlockview:1.0.0'

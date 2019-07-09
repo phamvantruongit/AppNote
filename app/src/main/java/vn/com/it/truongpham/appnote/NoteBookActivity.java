@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ShareCompat;
@@ -49,6 +50,11 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -71,10 +77,15 @@ public class NoteBookActivity extends AppCompatActivity implements AdapterTypeBo
     SharedPreferences sharedPreferences;
     InterstitialAd mInterstitialAd;
 
+    private DatabaseReference mDatabase;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mDatabase=FirebaseDatabase.getInstance().getReference().child("UpdateApp").child("versionName");
 
         mInterstitialAd = new InterstitialAd(this);
         mInterstitialAd.setAdUnitId(getResources().getString(R.string.id_interstitial));
@@ -91,7 +102,7 @@ public class NoteBookActivity extends AppCompatActivity implements AdapterTypeBo
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        sharedPreferences=getSharedPreferences("SaveList",MODE_PRIVATE);
+        sharedPreferences=getSharedPreferences("SaveLocal",MODE_PRIVATE);
         boolean checkList=sharedPreferences.getBoolean("check",false);
         if(!checkList){
             layoutManager=new LinearLayoutManager(this);
@@ -112,6 +123,67 @@ public class NoteBookActivity extends AppCompatActivity implements AdapterTypeBo
         init();
 
         getSearchName();
+
+        boolean checkUpdate = sharedPreferences.getBoolean("checkUpdate",false);
+        if(!checkUpdate) {
+            mDatabase.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    String versionNameUpdate = dataSnapshot.getValue(String.class);
+                    if (!versionNameUpdate.equals(BuildConfig.VERSION_NAME)) {
+                        updateApp();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
+
+    }
+
+    private void updateApp() {
+        SharedPreferences.Editor editor=sharedPreferences.edit();
+        editor.putBoolean("checkUpdate",true).apply();
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.show_popup_update);
+        dialog.show();
+        if (dialog.getWindow() != null) {
+            dialog.getWindow().setGravity(Gravity.CENTER);
+            dialog.getWindow().setLayout(
+                    WindowManager.LayoutParams.MATCH_PARENT,
+                    WindowManager.LayoutParams.WRAP_CONTENT
+            );
+            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
+        }
+
+        dialog.findViewById(R.id.tvLater).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.findViewById(R.id.tvAccept).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                openGooglePlay();
+            }
+        });
+
+    }
+
+    private void openGooglePlay(){
+        try {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + BuildConfig.APPLICATION_ID)));
+        } catch (android.content.ActivityNotFoundException anfe) {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID)));
+        }
     }
 
     private void init() {
@@ -179,11 +251,7 @@ public class NoteBookActivity extends AppCompatActivity implements AdapterTypeBo
             @Override
             public void onClick(View view) {
                 close();
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(
-                        "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID));
-                intent.setPackage("com.android.vending");
-                startActivity(intent);
+                openGooglePlay();
             }
         });
 
@@ -199,11 +267,15 @@ public class NoteBookActivity extends AppCompatActivity implements AdapterTypeBo
             @Override
             public void onClick(View view) {
                 close();
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setData(Uri.parse(
-                        "http://play.google.com/store/apps/collection/"));
-                intent.setPackage("com.android.vending");
-                startActivity(intent);
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/developer?id=jspvtSoftware")));
+            }
+        });
+
+        findViewById(R.id.tvUpdateApp).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                close();
+                openGooglePlay();
             }
         });
 
