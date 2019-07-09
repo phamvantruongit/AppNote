@@ -134,6 +134,13 @@ public class AdapterTypeBook extends RecyclerView.Adapter<AdapterTypeBook.ViewHo
 
                             }
                         });
+
+                        dia.findViewById(R.id.tvExit).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dia.dismiss();
+                            }
+                        });
                     }
                 });
 

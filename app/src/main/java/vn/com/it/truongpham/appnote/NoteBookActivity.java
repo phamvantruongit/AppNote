@@ -1,5 +1,6 @@
 package vn.com.it.truongpham.appnote;
 
+import android.annotation.SuppressLint;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 
@@ -14,14 +15,20 @@ import androidx.lifecycle.Observer;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Parcelable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -35,14 +42,19 @@ import android.view.WindowManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.material.navigation.NavigationView;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -56,12 +68,17 @@ public class NoteBookActivity extends AppCompatActivity implements AdapterTypeBo
     AdapterTypeBook adapterTypeBook;
     RecyclerView.LayoutManager layoutManager;
     EditText edSeach;
-
+    SharedPreferences sharedPreferences;
+    InterstitialAd mInterstitialAd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId(getResources().getString(R.string.id_interstitial));
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -74,12 +91,20 @@ public class NoteBookActivity extends AppCompatActivity implements AdapterTypeBo
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+        sharedPreferences=getSharedPreferences("SaveList",MODE_PRIVATE);
+        boolean checkList=sharedPreferences.getBoolean("check",false);
+        if(!checkList){
+            layoutManager=new LinearLayoutManager(this);
+        }else {
+            layoutManager = new GridLayoutManager(NoteBookActivity.this, 2);
+        }
+
+
         rvBook = findViewById(R.id.rvbook);
         edSeach = findViewById(R.id.edSearch);
 
         AdView mAdView = findViewById(R.id.adViews);
         AdRequest adRequest = new AdRequest.Builder().build();
-        mAdView.loadAd(adRequest);
         mAdView.loadAd(adRequest);
 
 
@@ -134,6 +159,7 @@ public class NoteBookActivity extends AppCompatActivity implements AdapterTypeBo
                     @Override
                     public void onClick(View v) {
                         dialog.dismiss();
+                        dialog.cancel();
                     }
                 });
             }
@@ -165,26 +191,66 @@ public class NoteBookActivity extends AppCompatActivity implements AdapterTypeBo
             @Override
             public void onClick(View view) {
                 close();
-                ShareCompat.IntentBuilder.from(NoteBookActivity.this).setType("text/plain")
-                        .setChooserTitle("Chia sẻ ứng dụng")
-                        .setText("https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID)
-                        .startChooser();
+                share();
             }
         });
 
         findViewById(R.id.tvMoreApp).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //http://play.google.com/store/apps/collection/<collection_name>
                 close();
                 Intent intent = new Intent(Intent.ACTION_VIEW);
                 intent.setData(Uri.parse(
-                        "http://play.google.com/store/apps/collection/game"));
+                        "http://play.google.com/store/apps/collection/"));
                 intent.setPackage("com.android.vending");
                 startActivity(intent);
             }
         });
 
+    }
+
+    private void share() {
+        List<Intent> targetShareIntents = new ArrayList<Intent>();
+        Intent shareIntent = new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        PackageManager pm = getPackageManager();
+        List<ResolveInfo> resInfos = pm.queryIntentActivities(shareIntent, 0);
+        if (!resInfos.isEmpty()) {
+            for (ResolveInfo resInfo : resInfos) {
+                String packageName = resInfo.activityInfo.packageName;
+
+                if (packageName.contains("com.twitter.android") || packageName.contains("com.facebook.katana")
+                        || packageName.contains("com.whatsapp") || packageName.contains("com.facebook.orca")
+                        || packageName.contains("com.instagram.android") || packageName.contains("com.skype.raider")
+                        || packageName.contains("com.zing.zalo")
+                        ) {
+                    Intent intent = new Intent();
+
+                    intent.setComponent(new ComponentName(packageName, resInfo.activityInfo.name));
+                    intent.putExtra("AppName", resInfo.loadLabel(pm).toString());
+                    intent.setAction(Intent.ACTION_SEND);
+                    intent.setType("text/plain");
+                    intent.putExtra(Intent.EXTRA_TEXT, "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID);
+                    intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.app_name));
+                    intent.setPackage(packageName);
+                    targetShareIntents.add(intent);
+                }
+            }
+            if (!targetShareIntents.isEmpty()) {
+                Collections.sort(targetShareIntents, new Comparator<Intent>() {
+                    @Override
+                    public int compare(Intent o1, Intent o2) {
+                        return o1.getStringExtra("AppName").compareTo(o2.getStringExtra("AppName"));
+                    }
+                });
+                Intent chooserIntent = Intent.createChooser(targetShareIntents.remove(0), "Select app to share");
+                chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetShareIntents.toArray(new Parcelable[]{}));
+                startActivity(chooserIntent);
+            } else {
+                Toast.makeText(NoteBookActivity.this, "No app to share.", Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
     private void close() {
@@ -264,13 +330,6 @@ public class NoteBookActivity extends AppCompatActivity implements AdapterTypeBo
         return super.onCreateOptionsMenu(menu);
     }
 
-//    @Override
-//    public void onBackPressed() {
-//        super.onBackPressed();
-//        overridePendingTransition(R.anim.right_in, R.anim.left_out);
-//        finish();
-//    }
-
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -293,6 +352,23 @@ public class NoteBookActivity extends AppCompatActivity implements AdapterTypeBo
             getSearchDate();
         }
 
+
+        if(item.getItemId()== R.id.item){
+            SharedPreferences.Editor editor=sharedPreferences.edit();
+            if(layoutManager instanceof GridLayoutManager){
+                editor.remove("check").apply();
+                layoutManager=new LinearLayoutManager(this);
+                getData();
+
+
+            }else {
+                editor.putBoolean("check", true).apply();
+                layoutManager = new GridLayoutManager(NoteBookActivity.this, 2);
+                getData();
+            }
+
+        }
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -301,7 +377,6 @@ public class NoteBookActivity extends AppCompatActivity implements AdapterTypeBo
         listLiveData.observe(this, new Observer<List<TypeBook>>() {
             @Override
             public void onChanged(@Nullable List<TypeBook> typeBooks) {
-                layoutManager = new LinearLayoutManager(NoteBookActivity.this);
                 adapterTypeBook = new AdapterTypeBook(NoteBookActivity.this, typeBooks, NoteBookActivity.this);
                 rvBook.setLayoutManager(layoutManager);
                 rvBook.setAdapter(adapterTypeBook);
@@ -315,10 +390,12 @@ public class NoteBookActivity extends AppCompatActivity implements AdapterTypeBo
         overridePendingTransition(R.anim.left_in, R.anim.right_out);
     }
 
+    @SuppressLint("ValidFragment")
     public static class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
         EditText date;
 
+        @SuppressLint("ValidFragment")
         public DatePickerFragment(EditText textView) {
 
             date = textView;
@@ -328,13 +405,19 @@ public class NoteBookActivity extends AppCompatActivity implements AdapterTypeBo
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             final Calendar c = Calendar.getInstance();
             int year = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH) + 1;
+            int month = c.get(Calendar.MONTH) ;
             int day = c.get(Calendar.DAY_OF_MONTH);
             return new DatePickerDialog(getActivity(), this, year, month, day);
         }
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
-            date.setText(String.valueOf(day) + "/" + String.valueOf(month) + "/" + String.valueOf(year));
+            String number= String.valueOf(day);
+            if(number.length()==1) {
+                String _day="0" + String.valueOf(day);
+                date.setText(_day + "/" + String.valueOf(month + 1) + "/" + String.valueOf(year));
+            }else {
+                date.setText(String.valueOf(day) + "/" + String.valueOf(month + 1) + "/" + String.valueOf(year));
+            }
         }
     }
 }

@@ -22,7 +22,7 @@ android {
     flavorDimensions "default"
     productFlavors {
         note {
-            applicationId "truong.pv.appnote"
+            applicationId "com.pvt.appnote"
             versionCode 4
             versionName "4.0.0"
         }
@@ -42,8 +42,8 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
     implementation 'androidx.room:room-runtime:2.0.0'
     annotationProcessor 'androidx.room:room-compiler:2.0.0'
-    implementation 'com.google.android.material:material:1.0.0'
-    implementation 'com.daimajia.swipelayout:library:1.2.0@aar'
+    //implementation 'com.google.android.material:material:1.0.0'
+    //implementation 'com.daimajia.swipelayout:library:1.2.0@aar'
     implementation 'com.google.firebase:firebase-ads:17.2.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     annotationProcessor 'androidx.lifecycle:lifecycle-compiler:2.0.0'

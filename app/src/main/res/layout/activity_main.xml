@@ -13,19 +13,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header_main"
-        >
+
         <LinearLayout
-            android:layout_marginTop="150dp"
+            android:background="@color/white"
+            android:layout_gravity="start"
+            android:fitsSystemWindows="true"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
             <TextView
                 android:textColor="@color/black"
                 android:drawableRight="@drawable/iv_arrow"
@@ -83,7 +78,7 @@
                 android:id="@+id/tvMoreApp"
                 android:drawableRight="@drawable/iv_arrow"
                 android:padding="8dp"
-                android:text="Thêm ứng dụng"
+                android:text="Danh sach ứng dụng"
                 android:layout_width="match_parent"
                 android:gravity="center_vertical"
                 android:layout_height="45dp" />
@@ -92,6 +87,5 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"/>
         </LinearLayout>
-    </com.google.android.material.navigation.NavigationView>
 
 </androidx.drawerlayout.widget.DrawerLayout>

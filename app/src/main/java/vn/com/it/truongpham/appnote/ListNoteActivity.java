@@ -26,7 +26,7 @@ import vn.com.it.truongpham.appnote.adapter.AdapterListNote;
 import vn.com.it.truongpham.appnote.data.Book;
 
 public class ListNoteActivity extends AppCompatActivity implements AdapterListNote.IOnClick {
-   RecyclerView recyclerView;
+    RecyclerView recyclerView;
     InterstitialAd mInterstitialAd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
