@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,6 +27,7 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
 
         preferences=getSharedPreferences("LockScreen",MODE_PRIVATE);
         String check_lock=preferences.getString("lock","");
@@ -40,9 +42,6 @@ public class SplashActivity extends AppCompatActivity {
             Intent intent=new Intent(this,NoteBookActivity.class);
             startActivity(intent);
         }
-
-
-
 
 
     }
