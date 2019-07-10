@@ -418,13 +418,6 @@ public class NoteBookActivity extends AppCompatActivity implements AdapterTypeBo
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if (item.getItemId() == R.id.item_search) {
-            DatePickerFragment fragment = new DatePickerFragment(edSeach);
-            fragment.show(getSupportFragmentManager(), "Select date");
-            getSearchDate();
-        }
-
-
         if(item.getItemId()== R.id.item){
             SharedPreferences.Editor editor=sharedPreferences.edit();
             if(layoutManager instanceof GridLayoutManager){
@@ -462,34 +455,4 @@ public class NoteBookActivity extends AppCompatActivity implements AdapterTypeBo
         overridePendingTransition(R.anim.left_in, R.anim.right_out);
     }
 
-    @SuppressLint("ValidFragment")
-    public static class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
-
-        EditText date;
-
-        @SuppressLint("ValidFragment")
-        public DatePickerFragment(EditText textView) {
-
-            date = textView;
-        }
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            final Calendar c = Calendar.getInstance();
-            int year = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH) ;
-            int day = c.get(Calendar.DAY_OF_MONTH);
-            return new DatePickerDialog(getActivity(), this, year, month, day);
-        }
-
-        public void onDateSet(DatePicker view, int year, int month, int day) {
-            String number= String.valueOf(day);
-            if(number.length()==1) {
-                String _day="0" + String.valueOf(day);
-                date.setText(_day + "/" + String.valueOf(month + 1) + "/" + String.valueOf(year));
-            }else {
-                date.setText(String.valueOf(day) + "/" + String.valueOf(month + 1) + "/" + String.valueOf(year));
-            }
-        }
-    }
 }
