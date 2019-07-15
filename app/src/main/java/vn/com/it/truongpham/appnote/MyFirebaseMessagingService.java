@@ -46,7 +46,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 .setLargeIcon(largeIcon)
                 .setContentTitle(remoteMessage.getData().get("title"))
                 .setContentText(remoteMessage.getData().get("message"))
-                .setAutoCancel(true)
+                .setAutoCancel(false)
                 .setSound(uri)
                 .setContentIntent(pendingIntent);
 

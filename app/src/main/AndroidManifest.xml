@@ -6,47 +6,12 @@
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
     <application
-        android:name=".ApplicationNote"
         android:allowBackup="true"
         android:icon="@drawable/icon_app"
         android:label="@string/app_name"
         android:roundIcon="@drawable/icon_app"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <meta-data
-            android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="@string/app_ads" />
-        <meta-data
-            android:name="com.google.android.gms.ads.AD_MANAGER_APP"
-            android:value="true" />
-
-        <activity
-            android:name=".ListNoteActivity"
-            android:theme="@style/AppThemeNoActionbar"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
-        <activity
-            android:name=".DetailNoteActivity"
-            android:theme="@style/AppThemeNoActionbar" />
-        <activity
-            android:name=".SplashActivity"
-            android:theme="@style/FullScreen">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-        </activity>
-        <activity
-            android:name=".LockScreenActivity"
-            android:theme="@style/FullScreen" />
-        <activity
-            android:name=".NoteBookActivity"
-            android:theme="@style/AppThemeNoActionbar"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
-        <activity
-            android:name="com.google.android.gms.ads.AdActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
-            android:noHistory="true" />
         <activity android:name=".NotificationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
