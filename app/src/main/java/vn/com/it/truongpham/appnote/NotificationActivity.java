@@ -29,7 +29,11 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.RemoteMessage;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -168,4 +172,21 @@ public class NotificationActivity extends AppCompatActivity {
         MySingleton.getInstance(getApplicationContext()).addToRequestQueue(objectRequest);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //EventBus.getDefault().register(this);
+    }
+
+    @Subscribe(sticky = true,threadMode = ThreadMode.MAIN)
+    public void getData(RemoteMessage remoteMessage) {
+        Log.d("PPPP",remoteMessage.getData().get("title"));
+        EventBus.getDefault().removeStickyEvent(remoteMessage);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 }
