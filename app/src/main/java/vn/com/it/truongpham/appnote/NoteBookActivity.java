@@ -411,7 +411,6 @@ public class NoteBookActivity extends AppCompatActivity implements AdapterTypeBo
             super.onBackPressed();
         }
 
-
     }
 
 
