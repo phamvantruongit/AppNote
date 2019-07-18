@@ -178,11 +178,7 @@ public class NotificationActivity extends AppCompatActivity {
         MySingleton.getInstance(getApplicationContext()).addToRequestQueue(objectRequest);
     }
 
-    public void clearNotification(int id) {
-        NotificationManager notificationManager = (NotificationManager) this
-                .getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.cancel(0);
-    }
+
 
     @Override
     protected void onResume() {
@@ -203,7 +199,6 @@ public class NotificationActivity extends AppCompatActivity {
                     Intent openView = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
                     startActivity(openView);
                     dialog.dismiss();
-                    clearNotification(id);
                 }
             });
 
@@ -211,7 +206,6 @@ public class NotificationActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
-                    clearNotification(id);
                 }
             });
             builder.create().show();
