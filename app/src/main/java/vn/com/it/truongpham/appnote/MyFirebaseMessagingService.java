@@ -17,31 +17,39 @@ import android.os.Build;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-import org.greenrobot.eventbus.EventBus;
-
-import java.util.List;
 import java.util.Random;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
-import androidx.lifecycle.LifecycleObserver;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-public class MyFirebaseMessagingService extends FirebaseMessagingService implements LifecycleObserver {
-    private final String ADMIN_CHANNEL_ID ="admin_channel";
+
+public class MyFirebaseMessagingService extends FirebaseMessagingService {
+    private final String ADMIN_CHANNEL_ID = "admin_channel";
+
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
+        ActivityManager am = (ActivityManager) this.getSystemService(Context.ACTIVITY_SERVICE);
+        ComponentName cn = am.getRunningTasks(1).get(0).topActivity;
+        if (cn.getPackageName().equals("com.pvt.appnote")) {
+            Intent localMessage = new Intent(CurrentActivityReceiver.CURRENT_ACTIVITY_ACTION);
+            localMessage.putExtra("title", remoteMessage.getData().get("title"));
+            localMessage.putExtra("message", remoteMessage.getData().get("message"));
+            localMessage.putExtra("link", remoteMessage.getData().get("link"));
+            LocalBroadcastManager.getInstance(this).sendBroadcast(localMessage);
 
-
-        if(MyApplication.checkRunningApp){
-            EventBus.getDefault().postSticky(remoteMessage);
-        }
-        else
-        {
+        } else {
+            int notificationID = new Random().nextInt(3000);
             Intent intent = new Intent(this, NotificationActivity.class);
             NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            NotificationActivity.checkIsOnStop = true;
+            intent.putExtra("title", remoteMessage.getData().get("title"));
+            intent.putExtra("message", remoteMessage.getData().get("message"));
+            intent.putExtra("link", remoteMessage.getData().get("link"));
+            intent.putExtra("notificationID", notificationID);
+            intent.putExtra("open",true);
 
-            int notificationID = new Random().nextInt(3000);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 setupChannels(notificationManager);
@@ -68,47 +76,24 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService impleme
 
             notificationManager.notify(notificationID, notificationBuilder.build());
         }
-   
-   
-    }
 
-    public boolean isRunningForeground() {
-        String topActivityClassName = getTopActivityName(this);
-        if (topActivityClassName != null && topActivityClassName.startsWith("vn.com.it.truongpham.appnote")) {
-
-            return true;
-        } else {
-
-            return false;
-        }
-    }
-
-    public String getTopActivityName(Context context) {
-        String topActivityClassName = null;
-        ActivityManager activityManager =
-                (ActivityManager) (context.getSystemService(Context.ACTIVITY_SERVICE));
-        List<ActivityManager.RunningTaskInfo> runningTaskInfos = activityManager.getRunningTasks(1);
-        if (runningTaskInfos != null) {
-            ComponentName f = runningTaskInfos.get(0).topActivity;
-            topActivityClassName = f.getClassName();
-        }
-        return topActivityClassName;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void setupChannels(NotificationManager notificationManager) {
-        CharSequence adminChannelName ="new notification";
+        CharSequence adminChannelName = "new notification";
 
-        String adminChannelDescription= "Device to device notification ";
+        String adminChannelDescription = "Device to device notification ";
         NotificationChannel adminChannel;
-        adminChannel=new NotificationChannel(ADMIN_CHANNEL_ID,adminChannelName,NotificationManager.IMPORTANCE_HIGH);
+        adminChannel = new NotificationChannel(ADMIN_CHANNEL_ID, adminChannelName, NotificationManager.IMPORTANCE_HIGH);
         adminChannel.setDescription(adminChannelDescription);
         adminChannel.enableLights(true);
         adminChannel.setLightColor(Color.RED);
         adminChannel.enableVibration(true);
-        if(notificationManager!=null){
+        if (notificationManager != null) {
             notificationManager.createNotificationChannel(adminChannel);
         }
     }
+
 
 }

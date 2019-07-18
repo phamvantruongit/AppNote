@@ -1,7 +1,6 @@
 package vn.com.it.truongpham.appnote;
 
 import android.app.Application;
-import android.widget.Toast;
 
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.LifecycleObserver;
@@ -9,7 +8,7 @@ import androidx.lifecycle.OnLifecycleEvent;
 import androidx.lifecycle.ProcessLifecycleOwner;
 
 public class MyApplication extends Application implements LifecycleObserver {
-    public static boolean checkRunningApp;
+    public static boolean checkRunning,checkDestroy,checkStop;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -19,11 +18,16 @@ public class MyApplication extends Application implements LifecycleObserver {
 
     @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
     public void appInResumeState() {
-        checkRunningApp=true;
+        checkRunning =true;
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
+    public void appInON_STOP(){
+        checkStop =true;
     }
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     public void appInDestroy() {
-        checkRunningApp=false;
+        checkDestroy=true;
     }
 }
